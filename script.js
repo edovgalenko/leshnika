@@ -1,14 +1,14 @@
 const cardImages = [
-    'img1.png', 'img2.png', 'img3.png', 'img4.png',
-    'img5.png', 'img6.png', 'img7.png', 'img8.png',
-    'img9.png', 'img10.png', 'img11.png', 'img12.png'
+    'img1.jpg', 'img2.jpg', 'img3.jpg', 'img4.jpg',
+    'img5.jpg', 'img6.jpg', 'img7.jpg', 'img8.jpg',
+    'img9.jpg', 'img10.jpg', 'img11.jpg', 'img12.jpg'
 ];
 
 let firstCard = null;
 let secondCard = null;
 let lockBoard = false;
 let matchesFound = 0;
-const unmatchedCardImage = 'img13.png'; // Одна непарная карта
+const unmatchedCardImage = 'img13.jpg';
 
 window.onload = function() {
     const gameBoard = document.getElementById('game-board');
@@ -18,7 +18,7 @@ window.onload = function() {
         const card = document.createElement('div');
         card.classList.add('card');
         card.innerHTML = `
-            <img class="back" src="img/back.png" alt="Card back">
+            <img class="back" src="img/back.jpg" alt="Card back">
             <img class="front" src="img/${image}" alt="Card front">
         `;
         card.addEventListener('click', flipCard);
@@ -52,8 +52,8 @@ function checkForMatch() {
     if (isMatch) {
         disableCards();
         matchesFound += 1;
-        if (matchesFound === 12) { // 12 пар найдены
-            showLastCard();
+        if (matchesFound === 12) {
+            showFinalCard();
         }
     } else {
         unflipCards();
@@ -87,13 +87,27 @@ function shuffle(array) {
     return array;
 }
 
-function showLastCard() {
-    const lastCard = document.querySelector(`.card:not(.flipped)`);
-    lastCard.classList.add('last-card');
-    lastCard.addEventListener('transitionend', showCongratsMessage);
-}
+function showFinalCard() {
+    const gameBoard = document.getElementById('game-board');
+    gameBoard.classList.add('hidden-grid');
 
-function showCongratsMessage() {
-    const congratsMessage = document.getElementById('congrats');
-    congratsMessage.classList.remove('hidden');
+    const finalCardContainer = document.getElementById('final-card-container');
+    finalCardContainer.classList.remove('hidden');
+
+    const finalCard = document.getElementById('final-card');
+    setTimeout(() => {
+        finalCard.classList.remove('hidden-initial');
+        setTimeout(() => {
+            finalCard.classList.add('flipped');
+        }, 500);
+    }, 100);
+
+    setTimeout(() => {
+        gameBoard.innerHTML = '';
+    }, 500);
+
+    finalCard.addEventListener('transitionend', () => {
+        const congratsText = document.getElementById('congrats-text');
+        congratsText.classList.remove('hidden');
+    });
 }
