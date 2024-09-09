@@ -19,8 +19,8 @@ h1 {
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(5, 1fr);
     gap: 10px;
-    width: 80vmin;
-    height: 80vmin;
+    width: 95vmin;
+    height: 95vmin;
 }
 
 .hidden-grid {
